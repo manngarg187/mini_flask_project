@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -18,6 +18,24 @@ class Student(db.Model):
 def home():
     students = Student.query.all()
     return render_template("index.html", students=students)
+
+
+@app.route("/add", methods=["GET", "POST"])
+def add_student():
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        email = request.form["email"]
+
+        new_student = Student(name=name, email=email)
+
+        db.session.add(new_student)
+        db.session.commit()
+
+        return redirect("/")
+
+    return render_template("add_student.html")
 
 
 if __name__ == "__main__":

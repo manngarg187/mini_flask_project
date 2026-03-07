@@ -12,7 +12,19 @@
 
 <h1>Student Manager</h1>
 
-<a href="/add" class="btn btn-primary">Add Student</a>
+<a href="/add" class="btn btn-primary mb-3">Add Student</a>
+
+<ul class="list-group">
+
+{% for student in students %}
+
+<li class="list-group-item">
+{{ student.name }} - {{ student.email }}
+</li>
+
+{% endfor %}
+
+</ul>
 
 </body>
 </html>
