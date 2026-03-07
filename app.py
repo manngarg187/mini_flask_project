@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.secret_key = "supersecretkey"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///students.db"
 
@@ -33,6 +34,7 @@ def add_student():
         db.session.add(new_student)
         db.session.commit()
 
+        flash("Student added successfully!")
         return redirect("/")
 
     return render_template("add_student.html")
@@ -45,6 +47,7 @@ def delete_student(id):
     db.session.delete(student)
     db.session.commit()
 
+    flash("Student deleted successfully!")
     return redirect("/")
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
@@ -59,6 +62,7 @@ def edit_student(id):
 
         db.session.commit()
 
+        flash("Student updated successfully!")
         return redirect("/")
 
     return render_template("edit_student.html", student=student)
