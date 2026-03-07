@@ -47,6 +47,22 @@ def delete_student(id):
 
     return redirect("/")
 
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit_student(id):
+
+    student = Student.query.get(id)
+
+    if request.method == "POST":
+
+        student.name = request.form["name"]
+        student.email = request.form["email"]
+
+        db.session.commit()
+
+        return redirect("/")
+
+    return render_template("edit_student.html", student=student)
+
 
 if __name__ == "__main__":
     with app.app_context():
