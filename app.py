@@ -37,6 +37,16 @@ def add_student():
 
     return render_template("add_student.html")
 
+@app.route("/delete/<int:id>")
+def delete_student(id):
+
+    student = Student.query.get(id)
+
+    db.session.delete(student)
+    db.session.commit()
+
+    return redirect("/")
+
 
 if __name__ == "__main__":
     with app.app_context():
